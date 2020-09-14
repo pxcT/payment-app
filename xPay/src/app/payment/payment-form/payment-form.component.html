@@ -1,0 +1,61 @@
+<div class="form-container">
+    <form [formGroup]="paymentForm">
+        <mat-form-field appearance="fill">
+            <mat-label>Credit Card Number *</mat-label>
+            <input matInput formControlName="creditCardNumber">
+            <mat-error *ngIf="paymentForm.controls.creditCardNumber.touched && paymentForm.controls.creditCardNumber.invalid">
+                <span *ngIf="paymentForm.controls.creditCardNumber.errors.required">Credit Card Number is required.</span>
+                <span *ngIf="paymentForm.controls.creditCardNumber.errors.onlyNumbers && !paymentForm.controls.creditCardNumber.errors.required ">Credit Card Number accepts only numbers.</span>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Cardholder name *</mat-label>
+            <input matInput formControlName="cardholder">
+            <mat-error *ngIf="paymentForm.controls.cardholder.touched && paymentForm.controls.cardholder.invalid">
+                <span *ngIf="paymentForm.controls.cardholder.errors.required">Cardholder name is required.</span>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Expiration Date *</mat-label>
+            <input
+                matInput
+                [matDatepicker]="picker"
+                [min]="minDatePickerValue"
+                formControlName="expirationDate">
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="paymentForm.controls.expirationDate.touched && paymentForm.controls.expirationDate.invalid">
+                <div *ngIf="paymentForm.controls.expirationDate.errors.required">Expiration Date is required.</div>
+                <div *ngIf="paymentForm.controls.expirationDate.errors.minDate && !paymentForm.controls.expirationDate.errors.required">Expiration Date must not be set in the past</div>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Security Code</mat-label>
+            <input matInput formControlName="securityCode" maxlength="3">
+            <mat-error *ngIf="paymentForm.controls.securityCode.touched && paymentForm.controls.securityCode.invalid">
+                <div *ngIf="paymentForm.controls.securityCode.errors.onlyNumbers">Only numbers are allowed</div>
+                <div *ngIf="paymentForm.controls.securityCode.errors.maxlength || paymentForm.controls.securityCode.errors.minlength">Security code length is 3</div>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Amount *</mat-label>
+            <input
+                matInput
+                min="0"
+                type="number"
+                formControlName="amount">
+            <mat-error *ngIf="paymentForm.controls.amount.touched && paymentForm.controls.amount.invalid">
+                <div *ngIf="paymentForm.controls.amount.errors.required">Amount is required.</div>
+                <div *ngIf="paymentForm.controls.amount.errors.minValue && !paymentForm.controls.amount.errors.required">Amount must be > 0</div>
+            </mat-error>
+        </mat-form-field>
+    </form>
+    <button
+        (click)="onSubmit()"
+        mat-raised-button
+        color="primary">
+        Submit
+    </button>
+</div>
